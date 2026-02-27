@@ -1,0 +1,103 @@
+import os
+from os.path import join
+from pathlib import Path
+from ament_index_python.packages import get_package_share_directory
+
+from launch import LaunchDescription
+from launch.actions import (
+    DeclareLaunchArgument, 
+    IncludeLaunchDescription, 
+    SetEnvironmentVariable,
+    AppendEnvironmentVariable
+    )
+from launch.substitutions import Command, LaunchConfiguration
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+
+from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
+
+
+def generate_launch_description():
+    kr6_description = get_package_share_directory("kuka_agilus_description")
+
+    model_arg = DeclareLaunchArgument(name="model", default_value=os.path.join(
+                                        kr6_description, "urdf", "kr6_r900_2.urdf.xacro"
+                                        ),
+                                      description="Absolute path to robot urdf file"
+    )
+
+    gazebo_resource_path = SetEnvironmentVariable(
+        name='GZ_SIM_RESOURCE_PATH',
+        value=[
+            os.path.join(kr6_description, 'worlds'), ':' +
+            str(Path(kr6_description).parent.resolve())
+            ]
+        )
+    
+    ros_distro = os.environ["ROS_DISTRO"]
+    is_ignition = "True" if ros_distro == "humble" else "False"
+    
+    robot_description = ParameterValue(Command([
+            "xacro ",
+            LaunchConfiguration("model"),
+            " is_ignition:=",
+            is_ignition
+        ]),
+        value_type=str
+    )
+
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        parameters=[{"robot_description": robot_description,
+                     "use_sim_time": True}]
+    )
+
+    gazebo = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('ros_gz_sim'), 'launch'), '/gz_sim.launch.py']),
+                launch_arguments=[
+                    ('gz_args', [
+                                os.path.join(kr6_description,"worlds","gazebo_world.sdf"),
+                                 ' -v 4',
+                                 ' -r',
+                                 ' --physics-engine gz-physics-bullet-featherstone-plugin']
+                    )
+                ]
+             )
+
+    gz_spawn_entity = Node(
+        package="ros_gz_sim",
+        executable="create",
+        output="screen",
+        arguments=["-topic", "robot_description",
+                   '-x', '0.0',
+                   '-y', '0.0',
+                   '-z', '0.0',
+                   '-R', '0.0',
+                   '-P', '0.0',
+                   '-Y', '0.0',
+                   "-name", "ant_robot"],
+    )
+
+    gz_ros2_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        parameters=[{
+            'config_file': os.path.join(kr6_description, 'config', 'ros2_gz_bridge.yaml'),
+        }],
+        output='screen'
+    )
+
+    return LaunchDescription([
+        # AppendEnvironmentVariable(
+        #     name="GZ_SIM_RESOURCE_PATH",
+        #     value=join(kr6_description, "worlds")
+        # ),
+        model_arg,
+        gazebo_resource_path,
+        robot_state_publisher_node,
+        gazebo,
+        gz_spawn_entity,
+        gz_ros2_bridge
+    ])
