@@ -25,7 +25,7 @@ def generate_launch_description():
         )
         .robot_description_semantic(file_path="srdf/kr_arm.srdf")
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
-        .moveit_cpp(file_path="config/ompl_planning.yaml")
+        .moveit_cpp(file_path="config/controller_setting.yaml")
         .to_moveit_configs()
     )
 
@@ -59,10 +59,20 @@ def generate_launch_description():
         ],
     )
 
+    static_tf = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        name="static_transform_publisher",
+        output="log",
+        arguments=["--frame-id", "world", "--child-frame-id", "base_link"],
+        parameters=[{"use_sim_time": True},],
+    )
+
     return LaunchDescription(
         [
             is_sim_arg,
             move_group_node, 
             rviz_node,
+            static_tf
         ]
     )
