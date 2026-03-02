@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="kr6_r900_2">
   <!-- Import macro files  -->
   <xacro:include filename="$(find kuka_agilus_description)/urdf/kr6_r900_2_macro.xacro"/>
+  <xacro:include filename="$(find kuka_agilus_description)/urdf/kuka_camera.xacro"/>
   <xacro:include filename="$(find kuka_agilus_description)/urdf/kr_agilus_ros2_control_macro.xacro"/>
   <!-- Read additional arguments  -->
   <xacro:arg name="driver_version" default="rsi_only"/>
@@ -23,6 +24,12 @@
   <xacro:kuka_agilus_ros2_control name="$(arg prefix)kr6_r900_2" driver_version="$(arg driver_version)" client_ip="$(arg client_ip)" client_port="$(arg client_port)" mxa_client_port="$(arg mxa_client_port)" controller_ip="$(arg controller_ip)" prefix="$(arg prefix)" mode="$(arg mode)" use_gpio="$(arg use_gpio)" roundtrip_time="$(arg roundtrip_time)" verify_robot_model="$(arg verify_robot_model)">
     <ext_axes_ros2_control_joints/>
   </xacro:kuka_agilus_ros2_control>
+
+  <xacro:camera_v0 parent="base_link">
+	    <origin xyz="0.2 0.6 0.7" rpy="0 ${PI/2} 0"/>
+  </xacro:camera_v0>
+  <xacro:camera_gazebo_v0/>
+
   <!-- world link -->
   <link name="world"/>
   <!-- robot links, joints -->
