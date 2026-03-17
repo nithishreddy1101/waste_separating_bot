@@ -72,13 +72,13 @@ def generate_launch_description():
         executable="create",
         output="screen",
         arguments=["-topic", "robot_description",
-                   '-x', '0.0',
+                   '-x', '-0.70',
                    '-y', '0.0',
-                   '-z', '0.0',
+                   '-z', '0.75',
                    '-R', '0.0',
                    '-P', '0.0',
                    '-Y', '0.0',
-                   "-name", "ant_robot"],
+                   "-name", "ur5_robot"],
     )
 
     gz_ros2_bridge = Node(
@@ -91,10 +91,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        # AppendEnvironmentVariable(
-        #     name="GZ_SIM_RESOURCE_PATH",
-        #     value=join(kr6_description, "worlds")
-        # ),
+        AppendEnvironmentVariable(
+            name="GZ_SIM_RESOURCE_PATH",
+            value=join(kr6_description, "meshes")
+        ),
         model_arg,
         gazebo_resource_path,
         robot_state_publisher_node,

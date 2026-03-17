@@ -4,7 +4,7 @@ from PIL import Image
 import json
 import re
 import cv2
-genai.configure(api_key="")
+genai.configure(api_key="AIzaSyAJOfx9fy2PpU9f7Nh_IrnjFn1yso0KASI")
 
 model = genai.GenerativeModel("gemini-3-flash-preview")
 

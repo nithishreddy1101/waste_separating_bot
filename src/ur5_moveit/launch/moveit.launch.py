@@ -6,6 +6,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from ament_index_python.packages import get_package_share_directory
 
+
 def generate_launch_description():
 
     is_sim = LaunchConfiguration("is_sim")
@@ -16,16 +17,17 @@ def generate_launch_description():
     )
 
     moveit_config = (
-        MoveItConfigsBuilder("kuka", package_name="kuka_agilus_moveit")
+        MoveItConfigsBuilder("moveit2", package_name="ur5_moveit")
         .robot_description(file_path=os.path.join(
             get_package_share_directory("robot_description"),
             "urdf",
-            "kr6_r900_2.urdf.xacro"
+            "ur5_robot.urdf.xacro"
             )
         )
-        .robot_description_semantic(file_path="srdf/kr_arm.srdf")
+        .robot_description_semantic(file_path="config/ur5_robot.srdf")
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .moveit_cpp(file_path="config/controller_setting.yaml")
+        .robot_description_kinematics(file_path = "config/kinematics.yaml")
         .to_moveit_configs()
     )
 
@@ -42,9 +44,9 @@ def generate_launch_description():
 
     # RViz
     rviz_config = os.path.join(
-        get_package_share_directory("kuka_agilus_moveit"),
+        get_package_share_directory("ur5_moveit"),
             "config",
-            "motion_planning.rviz",
+            "moveit.rviz",
     )
     rviz_node = Node(
         package="rviz2",
@@ -55,24 +57,15 @@ def generate_launch_description():
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
-            moveit_config.robot_description_kinematics
+            moveit_config.robot_description_kinematics,
+            moveit_config.joint_limits,
         ],
-    )
-
-    static_tf = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="static_transform_publisher",
-        output="log",
-        arguments=["--frame-id", "world", "--child-frame-id", "base_link"],
-        parameters=[{"use_sim_time": True},],
     )
 
     return LaunchDescription(
         [
             is_sim_arg,
             move_group_node, 
-            rviz_node,
-            static_tf
+            rviz_node
         ]
     )
