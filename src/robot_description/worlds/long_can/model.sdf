@@ -19,7 +19,7 @@
         <geometry>
           <mesh>
             <scale>1.0 1.0 1.0</scale>
-            <uri>model://long_can/meshes/long_can.dae</uri>
+            <uri>model://long_can/meshes/long_can.stl</uri>
           </mesh>
         </geometry>
         <surface>

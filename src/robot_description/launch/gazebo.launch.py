@@ -21,7 +21,7 @@ def generate_launch_description():
     kr6_description = get_package_share_directory("robot_description")
 
     model_arg = DeclareLaunchArgument(name="model", default_value=os.path.join(
-                                        kr6_description, "urdf", "ur5.urdf.xacro"
+                                        kr6_description, "urdf", "kr6_r900_2.urdf.xacro"
                                         ),
                                       description="Absolute path to robot urdf file"
     )
@@ -61,7 +61,7 @@ def generate_launch_description():
                                 os.path.join(kr6_description,"worlds","gazebo_world.sdf"),
                                  ' -v 4',
                                  ' -r',
-                                 ' --physics-engine gz-physics-bullet-featherstone-plugin'
+                                #  ' --physics-engine gz-physics-bullet-featherstone-plugin'
                                  ]
                     )
                 ]

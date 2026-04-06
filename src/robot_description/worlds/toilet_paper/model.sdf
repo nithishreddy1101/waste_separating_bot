@@ -19,7 +19,7 @@
         <geometry>
           <mesh>
             <scale>0.05 0.05 0.05</scale>
-            <uri>model://toilet_paper/meshes/ToiletPaperRoll.obj</uri>
+            <uri>model://toilet_paper/meshes/ToiletPaperRoll.DAE</uri>
           </mesh>
         </geometry>
         <surface>
@@ -39,7 +39,7 @@
         <geometry>
           <mesh>
             <scale>0.05 0.05 0.05</scale>
-            <uri>model://toilet_paper/meshes/ToiletPaperRoll.obj</uri>
+            <uri>model://toilet_paper/meshes/ToiletPaperRoll.DAE</uri>
           </mesh>
         </geometry>
       </visual>

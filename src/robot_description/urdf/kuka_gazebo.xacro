@@ -10,4 +10,21 @@
       </plugin>
     </gazebo>
   </xacro:macro>
+
+  <gazebo reference="tool0-suction">
+  <preserveFixedJoint>true</preserveFixedJoint>
+</gazebo>
+
+ <gazebo reference="suction_cup">
+          <sensor name="contact_sensor" type="contact">
+            <contact>
+              <collision>suction_cup_collision</collision>
+              <topic>/contact_sensor</topic>
+            </contact>
+            <always_on>true</always_on>
+            <update_rate>30</update_rate>
+            <visualize>true</visualize>
+        </sensor>
+  </gazebo>
+
 </robot>

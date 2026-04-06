@@ -163,5 +163,18 @@
         <pose>0.25 0.45 0.80 0 1.5707 0</pose>
       </include>
 
+      <include>
+        <static>false</static>
+        <uri>model://fish_can</uri>
+        <name>fish_can</name>
+        <pose>0.25 0.30 0.80 0 0 0</pose>
+      </include>
+
+    <include>
+        <static>false</static>
+        <uri>model://Strawberry</uri>
+        <name>strawberry</name>
+        <pose>0.25 0.15 0.80 0 0 0</pose>
+      </include>
   </world>
 </sdf>

@@ -4,7 +4,7 @@
     <static>false</static>
     <link name="link">
       <inertial>
-        <mass>6.4</mass>
+        <mass>0.4</mass>
         <inertia>
           <ixx>0.000021715</ixx>
           <ixy>0</ixy>
@@ -17,7 +17,7 @@
       </inertial>
       <collision name="collision">
         <geometry>
-          <mesh>
+            <mesh>
             <scale>1.0 1.0 1.0</scale>
             <uri>model://fish_can/meshes/fish_can.dae</uri>
           </mesh>
@@ -35,6 +35,7 @@
           </friction>
         </surface>
       </collision>
+
       <visual name="visual">
         <geometry>
           <mesh>

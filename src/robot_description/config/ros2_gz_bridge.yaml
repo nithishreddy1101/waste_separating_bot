@@ -9,3 +9,15 @@
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "ignition.msgs.Image"
   direction: GZ_TO_ROS
+
+- ros_topic_name: "/contact_sensor"
+  gz_topic_name: "contact_sensor"
+  ros_type_name: "ros_gz_interfaces/msg/Contacts" 
+  gz_type_name: "gz.msgs.Contacts"               
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/AttachableJoint"
+  gz_topic_name: "/AttachableJoint"
+  ros_type_name: "std_msgs/msg/String"
+  gz_type_name: "gz.msgs.StringMsg"
+  direction: BIDIRECTIONAL

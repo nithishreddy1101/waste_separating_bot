@@ -3,8 +3,8 @@
   <xacro:macro name="kuka_agilus_ros2_control" params="name driver_version client_ip client_port mxa_client_port controller_ip prefix mode use_gpio roundtrip_time verify_robot_model **ext_axes_ros2_control_joints">
     <!-- gazebo -->
     <xacro:if value="${mode == 'gazebo'}">
-      <xacro:include filename="$(find kuka_agilus_description)/urdf/kuka_gazebo.xacro"/>
-      <xacro:kuka_gazebo controller_config_package="kuka_agilus_controller" controller_config_path="config/ros2_controllers.yaml"/>
+      <xacro:include filename="$(find robot_description)/urdf/kuka_gazebo.xacro"/>
+      <xacro:kuka_gazebo controller_config_package="robot_controller" controller_config_path="config/ros2_controllers.yaml"/>
     </xacro:if>
     <!-- ros2 control -->
     <ros2_control name="${name}" type="system">

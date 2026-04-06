@@ -1,12 +1,5 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5_robot">
-
-  <link name="world"/>
-    <joint name="connect_root_and_world" type="fixed">
-      <child link="base_link" />
-      <parent link="world" />
-      <origin xyz="0 0 0" rpy="0 0 0" />    
-    </joint> 
   <!-- Arm Links -->
   <link name="base_link">
     <visual name="base_link_visual">
@@ -215,7 +208,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_base_link.stl"/>
       </geometry>
-      <material name="">
+      <material name="grey">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -237,7 +230,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_outer_knuckle.stl"/>
       </geometry>
-      <material name="">
+      <material name="light_blue">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
       </material>
     </visual>
@@ -259,7 +252,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_outer_finger.stl"/>
       </geometry>
-      <material name="">
+      <material name="grey">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -281,7 +274,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_inner_finger.stl"/>
       </geometry>
-      <material name="">
+      <material name="grey">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -298,7 +291,7 @@
       <geometry>
         <box size="0.027 0.065 0.0075"/>
       </geometry>
-      <material name="">
+      <material name="light_gray">
         <color rgba="0.9 0.9 0.9 1"/>
       </material>
     </visual>
@@ -307,7 +300,7 @@
       <geometry>
         <box size="0.03 0.07 0.0075"/>
       </geometry>
-      <material name="">
+      <material name="light_gray">
         <color rgba="0.9 0.0 0.0 1"/>
       </material>
     </collision>
@@ -323,7 +316,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_inner_knuckle.stl"/>
       </geometry>
-      <material name="">
+      <material name="grey">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -345,7 +338,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_outer_knuckle.stl"/>
       </geometry>
-      <material name="">
+      <material name="light_blue">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
       </material>
     </visual>
@@ -367,7 +360,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_outer_finger.stl"/>
       </geometry>
-      <material name="">
+      <material name="grey">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -389,7 +382,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_inner_finger.stl"/>
       </geometry>
-      <material name="">
+      <material name="grey">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -406,7 +399,7 @@
       <geometry>
         <box size="0.027 0.065 0.0075"/>
       </geometry>
-      <material name="">
+      <material name="light_gray">
         <color rgba="0.9 0.9 0.9 1"/>
       </material>
     </visual>
@@ -415,7 +408,7 @@
       <geometry>
         <box size="0.03 0.07 0.0075"/>
       </geometry>
-      <material name="">
+      <material name="light_gray">
         <color rgba="0.9 0.0 0.0 1"/>
       </material>
     </collision>
@@ -431,7 +424,7 @@
       <geometry>
         <mesh filename="package://robot_description/meshes/ur5/visual/robotiq_arg2f_140_inner_knuckle.stl"/>
       </geometry>
-      <material name="">
+      <material name="grey">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -514,89 +507,4 @@
     <child link="right_inner_finger_pad"/>
     <axis xyz="0 0 1"/>
   </joint>
-
-  <xacro:include filename="$(find robot_description)/urdf/gazebo_camera.xacro"/>
-
-    <xacro:camera_v0 parent="base_link">
-        <origin xyz="0.2 0.6 0.7" rpy="0 ${3.141592/2} 0"/>
-    </xacro:camera_v0>
-    <xacro:camera_gazebo_v0/>
-
-        <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions.yaml)['initial_positions']}"/>
-
-        <ros2_control name="GazeboSystem" type="system">
-            <hardware>
-                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-            </hardware>
-            <joint name="shoulder_pan_joint">
-                <command_interface name="position"/>
-                <state_interface name="position">
-                  <param name="initial_value">0.0</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-            <joint name="shoulder_lift_joint">
-                <command_interface name="position"/>
-                <state_interface name="position">
-                  <param name="initial_value">0.0</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-            <joint name="elbow_joint">
-                <command_interface name="position"/>
-                <state_interface name="position">
-                  <param name="initial_value">1.5707</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-            <joint name="wrist_1_joint">
-                <command_interface name="position"/>
-                <state_interface name="position">
-                  <param name="initial_value">0.0</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-            <joint name="wrist_2_joint">
-                <command_interface name="position"/>
-                <state_interface name="position">
-                  <param name="initial_value">4.7123</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-            <joint name="wrist_3_joint">
-                <command_interface name="position"/>
-                <state_interface name="position">
-                  <param name="initial_value">1.5707</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-            <joint name="finger_joint">
-                <command_interface name="position"/>
-                <state_interface name="position">
-                  <param name="initial_value">0.0</param>
-                </state_interface>
-                <state_interface name="velocity"/>
-            </joint>
-            
-        </ros2_control>
-
-        <gazebo>
-          <plugin
-              filename="gz_ros2_control-system"
-              name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-              <parameters>$(find robot_controller)/config/ur5_ros2_controllers.yaml</parameters>
-          </plugin>
-        </gazebo>
-
-        <gazebo reference="right_inner_finger">
-          <sensor name="contact_sensor" type="contact">
-            <contact>
-              <collision>right_inner_finger_collision</collision>
-              <topic>/contact_sensor</topic>
-            </contact>
-            <always_on>true</always_on>
-            <update_rate>30</update_rate>
-            <visualize>true</visualize>
-            </sensor>
-        </gazebo>
 </robot>
